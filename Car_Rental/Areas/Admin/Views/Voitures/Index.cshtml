@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Car_Rental.Models.Voiture>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h4>Liste des véhicules</h4>
+
+<p>
+    @Html.ActionLink("Ajouter", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table table-hover table-bordered">
+    <tr class="bg-light">
+        <th>
+            @Html.DisplayNameFor(model => model.Catégorie.Nom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Modèle.Marque)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Image)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date_mise_en_circulation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type_carburant)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Prix_location)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr class="bg-white">
+        <td>
+            @Html.DisplayFor(modelItem => item.Catégorie.Nom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Modèle.Marque)
+        </td>
+        <td>
+            <img src="@Url.Content("~/Content/Images/"+@item.Image)" alt="@Html.DisplayFor(modelItem => item.Modèle.Serie)" width="120" height="80">
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date_mise_en_circulation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Type_carburant)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Prix_location)
+        </td>
+        <td>
+            @*@Html.ActionLink("Edit", "Edit", new { id = item.Id_voiture }) |*@
+            <a href="@Url.Action("Edit", "Voitures",new { id = item.Id_voiture })" class="btn btn-primary btn-sm">
+                <i class="fas fa-edit"></i>
+            </a>
+            <a 
+               href="@Url.Action("Delete", "Voitures",new { id = item.Id_voiture })" 
+               class="btn btn-danger btn-sm"
+               onclick="return confirm('Êtes-vous sûr? ')"
+               >
+                <i class="fas fa-trash"></i>
+            </a>
+            @*@Html.ActionLink("Delete", "Delete", new { id = item.Id_voiture })*@
+        </td>
+    </tr>
+}
+
+</table>

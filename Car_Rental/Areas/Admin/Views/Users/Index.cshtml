@@ -1,0 +1,105 @@
+﻿@model IEnumerable<Car_Rental.Models.Client>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h4>Liste des utilisateurs:</h4>
+
+<p>
+    @Html.ActionLink("Ajouter", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table table-bordered">
+    <tr class="bg-light">
+        <th>
+            @Html.DisplayNameFor(model => model.Nom_complet)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date_naissance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telephone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Adresse_mail)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Image_cin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Image_permis)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Etat_compte)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.isAdmin)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="bg-white">
+            <td>
+                @Html.DisplayFor(modelItem => item.Nom_complet)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date_naissance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telephone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adresse_mail)
+            </td>
+            <td>
+                <img src="@Url.Content("~/Content/Images/"+@item.Image_cin)" alt="@Html.DisplayFor(modelItem => item.Nom_complet)" width="120" height="80">
+            </td>
+            <td>
+                <img src="@Url.Content("~/Content/Images/"+@item.Image_permis)" alt="@Html.DisplayFor(modelItem => item.Nom_complet)" width="120" height="80">
+
+            </td>
+            <td>
+                <span class="@(item.Etat_compte == "En attente" ? "badge badge-warning" : "badge badge-success")" style="font-size:13px">
+                    @Html.DisplayFor(modelItem => item.Etat_compte)
+                </span>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.isAdmin)
+            </td>
+            <td>
+                <div class="d-flex justify-content-between">
+                    <a href="@Url.Action("Edit", "Users",new { id = item.Id_client })" class="btn btn-primary btn-sm">
+                        <i class="fas fa-user-edit"></i>
+                    </a>
+                    <a href="@Url.Action("Delete", "Users",new { id = item.Id_client })"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Êtes-vous sûr? ')">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                    @*<a href="@Url.Action("ValidateAccount", "Users",new { id = item.Id_client })"
+                           class="btn btn-success btn-sm"
+                           title="Valider le compte">
+                            <i class="fas fa-check"></i>
+                        </a>*@
+                    @if (item.Etat_compte == "En attente")
+                    {
+                        using (Html.BeginForm("ValidateAccount", "Users", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <input type="hidden" name="id_client" id="id_client" value="@item.Id_client" />
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        }
+                    }
+                </div>
+            </td>
+        </tr>
+    }
+
+</table>

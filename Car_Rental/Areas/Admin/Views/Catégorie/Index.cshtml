@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Car_Rental.Models.Catégorie>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Liste des catégories:</h2>
+
+<p>
+    @Html.ActionLink("Ajouter", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table table-hover table-bordered w-50">
+    <tr class="bg-light">
+        <th>
+            @Html.DisplayNameFor(model => model.Nom)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr class="bg-white">
+        <td>
+            @Html.DisplayFor(modelItem => item.Nom)
+        </td>
+        <td class=" text-center">
+            @*@Html.ActionLink("Edit", "Edit", new { id = item.Id_categorie }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id_categorie }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id_categorie })*@
+
+            <a href="@Url.Action("Edit", "Catégorie",new { id = item.Id_categorie })" class="btn btn-primary btn-sm">
+                <i class="fas fa-edit"></i>
+            </a>
+            <a href="@Url.Action("Delete", "Catégorie",new { id = item.Id_categorie })"
+               class="btn btn-danger btn-sm"
+               onclick="return confirm('Êtes-vous sûr? ')">
+                <i class="fas fa-trash"></i>
+            </a>
+        </td>
+    </tr>
+}
+
+</table>

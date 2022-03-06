@@ -1,0 +1,64 @@
+﻿@model Car_Rental.Models.Client
+
+@{
+    ViewBag.Title = "Login";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+   
+<div class="container my-5">
+    
+    <div class="row">
+        <div class="col-lg-6 col-md-8 mx-auto">
+            @if (TempData["login_first"] != null)
+            {
+                <div class="alert alert-warning text-center" role="alert">
+                    @TempData["login_first"]
+                </div>
+            }
+            <div class="card rounded shadow shadow-sm">
+                <div class="card-header text-center">
+                    <h3 class="mb-">Login</h3>
+                </div>
+
+                <div class="card-body">
+                    @if (TempData["login_error"] != null)
+                    {
+                        <p class="alert alert-danger text-center">@TempData["login_error"]</p>
+                    }
+                    <form role="form" class="form-horizontal" method="post">
+                        <div class="form-group">
+                            <label class="control-label col-md-5">Adresse email</label>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Adresse_mail, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Adresse_mail, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-5">Mots de passe</label>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Mots_de_passe, new { htmlAttributes = new { @class = "form-control", type = "password" } })
+                                @Html.ValidationMessageFor(model => model.Mots_de_passe, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group mx-auto">
+                            <div class=" col-md-12">
+                                <input type="submit" value="Login" class="btn btn-dark btn-block" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+}

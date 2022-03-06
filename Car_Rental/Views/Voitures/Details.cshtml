@@ -1,0 +1,77 @@
+﻿@model Car_Rental.Models.Voiture
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<main class="my-4">
+    <div class="container bg-light p-5">
+
+        <!--Grid row-->
+        <div class="row fadeIn">
+
+            <!--Grid column-->
+            <div class="col-md-6">
+
+                <img src="@Url.Content("~/Content/Images/"+@Model.Image)" class="card-img" alt="@Html.DisplayFor(model => model.Modèle.Serie)">
+
+            </div>
+            <!--Grid column-->
+            <!--Grid column-->
+            <div class="col-md-6">
+
+                <!--Content-->
+                <div class="p-4" style="font-size:15px; line-height:30px">
+
+                    <div class="text-dark">
+                        Catégorie : <b>@Html.DisplayFor(model => model.Catégorie.Nom)</b>
+                    </div>
+
+                    <div class="text-dark">
+                        Marque: <b>@Html.DisplayFor(model => model.Modèle.Marque) </b>
+                    </div>
+
+                    <div class="text-dark">
+                        Série: <b>@Html.DisplayFor(model => model.Modèle.Serie) </b>
+                    </div>
+
+                    <div class="text-dark">
+                        Date de mise en circulation: <b>@Html.DisplayFor(model => model.Date_mise_en_circulation)</b>
+                    </div>
+
+                    <div class="text-dark">
+                        Type de carburant: <b>@Html.DisplayFor(model => model.Type_carburant)</b>
+                    </div>
+
+                    <div class="text-dark">
+                         Prix de location: <span class="badge" style="font-size:13px;background:#FFD105">@Html.DisplayFor(model => model.Prix_location) MAD/Jour </span></b>
+                    </div>
+
+                    @*@if (TempData["deja"] != null)
+                        {
+                            <div class="alert alert-info">@TempData["deja"]</div>
+                        }
+                        @Html.ActionLink("Réserver cette voiture", "Location", new { id_voiture = Model.Id_voiture }, new { @class = "btn btn-dark btn-md my-0 " })*@
+
+                    <br /><br />
+                    @if (TempData["voiture_loué"] != null)
+                    {
+                        <div class="badge badge-danger" style="font-size:20px">Cette voiture est déjà loué.</div>
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Réserver cette voiture", "Location", new { id_voiture = Model.Id_voiture }, new { @class = "btn btn-dark btn-md my-0 " })
+                    }
+                </div>
+                <!--Content-->
+
+            </div>
+            <!--Grid column-->
+
+        </div>
+        <!--Grid row-->
+        @Html.ActionLink("Retour", "Index", null, new { @class = "btn btn-light float-right" })
+        <br>
+    </div>
+</main>

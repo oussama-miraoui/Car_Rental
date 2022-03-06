@@ -1,0 +1,107 @@
+﻿@model IEnumerable<Car_Rental.Models.Location>
+
+@{
+    ViewBag.Title = "ReservationList";
+}
+
+
+
+<div class="container-fluid my-5">
+    @if (TempData["attente_validation_agent"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["attente_validation_agent"]
+            <!---->
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+    @if (TempData["cancelReservation"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["cancelReservation"]
+            <!---->
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+
+    @if (Model.Count() > 0)
+    {
+        <h2>Mes réservations:</h2>
+        <table class="table table-hover table-bordered text-center">
+            <thead class="bg-light">
+                <tr>
+                    <th>
+                        Voiture réservée
+                    </th>
+                    <th>
+                        Type de location
+                    </th>
+                    <th>
+                        Date de début
+                    </th>
+                    <th>
+                        Date de fin
+                    </th>
+                    <th>
+                        Prix total
+                    </th>
+                    <th>
+                        Etat de location
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="bg-white">
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>
+                            <img src="@Url.Content("~/Content/Images/"+@item.Voiture.Image)" class="" alt="" width="230" height="130">
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.type_location)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.date_debut)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.date_fin)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.prix_location_total) Dhs
+                        </td>
+                        <td>
+                            <span class="@(item.Etat_location == "En attente" ? "badge badge-warning" : "badge badge-success")" style="font-size:13px">
+                                @Html.DisplayFor(modelItem => item.Etat_location)
+                            </span>
+                        </td>
+                        <td>
+                            @*@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+
+                            <a href="@Url.Action("cancelReservation", "Voitures",new { idC = item.id_client, idV=item.Id_voiture })"
+                               class=""
+                               onclick="return confirm('Êtes-vous sûr? ')">
+                                <span class="material-icons text-danger" title="Annuler la réservation" style="cursor:pointer">
+                                    cancel
+                                </span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    }
+    else
+    {
+        <h2>Vous n'avez aucune réservation!</h2>
+    }
+
+</div>
